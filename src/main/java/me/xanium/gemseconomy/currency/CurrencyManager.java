@@ -56,7 +56,6 @@ public class CurrencyManager {
         }
 
         Currency currency = new Currency(UUID.randomUUID(), singular, plural);
-        currency.setExchangeRate(1.0);
         if(currencies.size() == 1) {
             currency.setDefaultCurrency(true);
         }
