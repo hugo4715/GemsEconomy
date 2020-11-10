@@ -97,7 +97,7 @@ public class GEVaultHook extends AbstractEconomy {
         if(GemsEconomy.getInstance().isDebug())UtilServer.consoleLog("Lookup name: " + player.getName() + "(" + player.getUniqueId() + ")");
         Account user = GemsEconomy.getInstance().getAccountManager().getAccount(player.getUniqueId());
         Currency currency = GemsEconomy.getInstance().getCurrencyManager().getDefaultCurrency();
-        return user.getBalance(currency);
+        return user == null ? 0d : user.getBalance(currency);
     }
 
     @Override
