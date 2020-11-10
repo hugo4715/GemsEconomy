@@ -17,6 +17,7 @@ import me.xanium.gemseconomy.data.DataStore;
 import me.xanium.gemseconomy.data.MySQLStorage;
 import me.xanium.gemseconomy.data.SQLiteDataStore;
 import me.xanium.gemseconomy.data.YamlStorage;
+import me.xanium.gemseconomy.expansion.GemsEcoExpansion;
 import me.xanium.gemseconomy.file.Configuration;
 import me.xanium.gemseconomy.listeners.EconomyListener;
 import me.xanium.gemseconomy.logging.EconomyLogger;
@@ -25,6 +26,7 @@ import me.xanium.gemseconomy.utils.Metrics;
 import me.xanium.gemseconomy.utils.Updater;
 import me.xanium.gemseconomy.utils.UtilServer;
 import me.xanium.gemseconomy.vault.VaultHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -62,7 +64,6 @@ public class GemsEconomy extends JavaPlugin {
      * PM me or contact me on discord!
      *
      */
-    
 
 
     /**
@@ -116,6 +117,14 @@ public class GemsEconomy extends JavaPlugin {
         if (isLogging()) {
             getEconomyLogger().save();
         }
+
+        Bukkit.getScheduler().runTask(this,() -> {
+            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                UtilServer.consoleLog("Registering Placeholders");
+                new GemsEcoExpansion().register();
+            }
+        });
+
 
         doAsync(this::checkForUpdate);
     }
