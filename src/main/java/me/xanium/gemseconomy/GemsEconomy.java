@@ -100,7 +100,8 @@ public class GemsEconomy extends JavaPlugin {
         getCommand("economy").setExecutor(new EconomyCommand());
         getCommand("pay").setExecutor(new PayCommand());
         getCommand("currency").setExecutor(new CurrencyCommand());
-        getCommand("exchange").setExecutor(new ExchangeCommand());
+        if(getConfig().getBoolean("exchange"))
+            getCommand("exchange").setExecutor(new ExchangeCommand());
 
         if(getConfig().getBoolean("cheque.enable")){
             getCommand("cheque").setExecutor(new ChequeCommand());
