@@ -76,11 +76,14 @@ public class Currency {
             }
             amt.append(NumberFormat.getInstance().format(Double.parseDouble(s)));
         }
-        amt.append(" ");
-        if (amount != 1.0) {
-            amt.append(this.getPlural().replace("_", " "));
-        } else {
-            amt.append(this.getSingular().replace("_", " "));
+
+        if(this.getSymbol() == null){
+            amt.append(" ");
+            if (amount != 1.0) {
+                amt.append(this.getPlural().replace("_", " "));
+            } else {
+                amt.append(this.getSingular().replace("_", " "));
+            }
         }
         return amt.toString();
     }
