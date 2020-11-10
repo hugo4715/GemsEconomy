@@ -53,6 +53,7 @@ public class Configuration {
 
         config.addDefault("sqlite.file", "database.sqlite");
 
+        config.addDefault("cheque.enable", true);
         config.addDefault("cheque.material", Material.PAPER.toString());
         config.addDefault("cheque.name", "&aBank Note");
         config.addDefault("cheque.lore", Arrays.asList("&7Worth: {value}.", "&7&oWritten by {player}"));

@@ -88,7 +88,6 @@ public class GemsEconomy extends JavaPlugin {
         nmsVersion = new NMSVersion();
         accountManager = new AccountManager(this);
         currencyManager = new CurrencyManager(this);
-        chequeManager = new ChequeManager(this);
         economyLogger = new EconomyLogger(this);
         metrics = new Metrics(this);
         updateForwarder = new UpdateForwarder(this);
@@ -101,8 +100,12 @@ public class GemsEconomy extends JavaPlugin {
         getCommand("economy").setExecutor(new EconomyCommand());
         getCommand("pay").setExecutor(new PayCommand());
         getCommand("currency").setExecutor(new CurrencyCommand());
-        getCommand("cheque").setExecutor(new ChequeCommand());
         getCommand("exchange").setExecutor(new ExchangeCommand());
+
+        if(getConfig().getBoolean("cheque.enable")){
+            getCommand("cheque").setExecutor(new ChequeCommand());
+            chequeManager = new ChequeManager(this);
+        }
 
         if (isVault()) {
             vaultHandler = new VaultHandler(this);
