@@ -12,9 +12,11 @@ import me.xanium.gemseconomy.GemsEconomy;
 import me.xanium.gemseconomy.account.Account;
 import me.xanium.gemseconomy.currency.Currency;
 import me.xanium.gemseconomy.file.F;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class EconomyCommand implements CommandExecutor {
 
@@ -95,6 +97,10 @@ public class EconomyCommand implements CommandExecutor {
                     Account target = plugin.getAccountManager().getAccount(args[1]);
                     if (target != null) {
                         if (target.deposit(currency, amount)) {
+                            final Player targetPlayer = Bukkit.getPlayer(target.getUuid());
+                            if(targetPlayer != null)
+                                targetPlayer.sendMessage(F.getPaidMessage().replace("{currencycolor}", currency.getColor()+"").replace("{amount}", currency.format(amount)).replace("{player}", sender.getName()));
+
                             sender.sendMessage(F.getAddMessage()
                                     .replace("{player}", target.getNickname())
                                     .replace("{currencycolor}", currency.getColor() + "")
