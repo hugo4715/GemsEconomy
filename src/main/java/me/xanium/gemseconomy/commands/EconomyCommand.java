@@ -13,6 +13,7 @@ import me.xanium.gemseconomy.account.Account;
 import me.xanium.gemseconomy.currency.Currency;
 import me.xanium.gemseconomy.file.F;
 import org.bukkit.Bukkit;
+import me.xanium.gemseconomy.utils.UtilServer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,7 +25,6 @@ public class EconomyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s124, String[] args) {
-
         if (!sender.hasPermission("gemseconomy.command.economy")) {
             sender.sendMessage(F.getNoPerms());
             return true;
