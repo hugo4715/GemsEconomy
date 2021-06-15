@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class CurrencyManager {
 
-    private GemsEconomy plugin;
+    private final GemsEconomy plugin;
 
     public CurrencyManager(GemsEconomy plugin) {
         this.plugin = plugin;

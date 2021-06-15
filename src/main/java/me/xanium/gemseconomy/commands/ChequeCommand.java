@@ -26,7 +26,6 @@ public class ChequeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-
         if (!(sender instanceof Player)) {
             sender.sendMessage(F.getNoConsole());
             return true;

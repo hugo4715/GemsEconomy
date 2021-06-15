@@ -14,7 +14,7 @@
 
     <groupId>me.xanium</groupId>
     <artifactId>GemsEconomy</artifactId>
-    <version>4.9</version>
+    <version>4.9.2</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -60,6 +60,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
+                    <!--<outputDirectory>F:\Programmering\TestServer\update-nether\plugins</outputDirectory>-->
                     <outputDirectory>${project.basedir}</outputDirectory>
                 </configuration>
             </plugin>
@@ -90,7 +91,13 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.15.2-R0.1-SNAPSHOT</version>
+            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.16.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -102,7 +109,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.3.1</version>
+            <version>3.4.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

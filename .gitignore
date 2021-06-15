@@ -1,4 +1,7 @@
 .idea
-target
-*.jar
+target/
+.settings/
+.idea/
 dependency-reduced-pom.xml
+*.iml
+*.jar

@@ -13,9 +13,8 @@ import me.xanium.gemseconomy.bungee.UpdateForwarder;
 import me.xanium.gemseconomy.cheque.ChequeManager;
 import me.xanium.gemseconomy.commands.*;
 import me.xanium.gemseconomy.currency.CurrencyManager;
-import me.xanium.gemseconomy.data.DataStore;
+import me.xanium.gemseconomy.data.DataStorage;
 import me.xanium.gemseconomy.data.MySQLStorage;
-import me.xanium.gemseconomy.data.SQLiteDataStore;
 import me.xanium.gemseconomy.data.YamlStorage;
 import me.xanium.gemseconomy.expansion.GemsEcoExpansion;
 import me.xanium.gemseconomy.file.Configuration;
@@ -23,6 +22,7 @@ import me.xanium.gemseconomy.listeners.EconomyListener;
 import me.xanium.gemseconomy.logging.EconomyLogger;
 import me.xanium.gemseconomy.nbt.NMSVersion;
 import me.xanium.gemseconomy.utils.Metrics;
+import me.xanium.gemseconomy.utils.SchedulerUtils;
 import me.xanium.gemseconomy.utils.Updater;
 import me.xanium.gemseconomy.utils.UtilServer;
 import me.xanium.gemseconomy.vault.VaultHandler;
@@ -36,7 +36,7 @@ public class GemsEconomy extends JavaPlugin {
 
     private static GemsEconomy instance;
 
-    private DataStore dataStore = null;
+    private DataStorage dataStorage = null;
     private AccountManager accountManager;
     private ChequeManager chequeManager;
     private CurrencyManager currencyManager;
@@ -64,6 +64,7 @@ public class GemsEconomy extends JavaPlugin {
      * PM me or contact me on discord!
      *
      */
+    
 
 
     /**
@@ -88,6 +89,7 @@ public class GemsEconomy extends JavaPlugin {
         nmsVersion = new NMSVersion();
         accountManager = new AccountManager(this);
         currencyManager = new CurrencyManager(this);
+        chequeManager = new ChequeManager(this);
         economyLogger = new EconomyLogger(this);
         metrics = new Metrics(this);
         updateForwarder = new UpdateForwarder(this);
@@ -130,7 +132,7 @@ public class GemsEconomy extends JavaPlugin {
         });
 
 
-        doAsync(this::checkForUpdate);
+        SchedulerUtils.runAsync(this::checkForUpdate);
     }
 
     @Override
@@ -146,12 +148,14 @@ public class GemsEconomy extends JavaPlugin {
 
     public void initializeDataStore(String strategy, boolean load) {
 
-        DataStore.getMethods().add(new YamlStorage(new File(getDataFolder(), "data.yml")));
-        DataStore.getMethods().add(new MySQLStorage(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password")));
-        DataStore.getMethods().add(new SQLiteDataStore(new File(getDataFolder(), getConfig().getString("sqlite.file"))));
+        DataStorage.getMethods().add(new YamlStorage(new File(getDataFolder(), "data.yml")));
+        DataStorage.getMethods().add(new MySQLStorage(getConfig().getString("mysql.host"), getConfig().getInt("mysql.port"), getConfig().getString("mysql.database"), getConfig().getString("mysql.username"), getConfig().getString("mysql.password")));
+
+        // Disabled. Not many are using SQLite anyway. And MySQL has much better performance!
+        //DataStorage.getMethods().add(new SQLiteStorage(new File(getDataFolder(), getConfig().getString("sqlite.file"))));
 
         if (strategy != null) {
-            dataStore = DataStore.getMethod(strategy);
+            dataStorage = DataStorage.getMethod(strategy);
         } else {
             UtilServer.consoleLog("§cNo valid storage method provided.");
             UtilServer.consoleLog("§cCheck your files, then try again.");
@@ -194,16 +198,8 @@ public class GemsEconomy extends JavaPlugin {
         }
     }
 
-    public static void doAsync(Runnable runnable) {
-        getInstance().getServer().getScheduler().runTaskAsynchronously(getInstance(), runnable);
-    }
-
-    public static void doSync(Runnable runnable) {
-        getInstance().getServer().getScheduler().runTask(getInstance(), runnable);
-    }
-
-    public DataStore getDataStore() {
-        return dataStore;
+    public DataStorage getDataStore() {
+        return dataStorage;
     }
 
     public static GemsEconomy getInstance() {
